@@ -1,9 +1,6 @@
-//a* implementation uses code and ideas from:
-//https://briangrinstead.com/blog/astar-search-algorithm-in-javascript/
-
-let t0;
-let t1;
-
+////////////////////////////////////////////
+//       Disgusting Global Variables      //
+////////////////////////////////////////////
 let width = Math.min(window.innerWidth,window.innerHeight) - 20;
 let height = width;
 
@@ -13,76 +10,11 @@ let mouse_position = {
 };
 
 let mouse_down = false;
-
+let pathUpdate = false;
 let rows, cols, grid, solved, openSet, closedSet, start, end, current, robot;
+let t0;
+let t1;
 
-function Node(x,y) {
-    this.xpos = x;
-    this.ypos = y; 
-
-    this.visited = false;
-    this.closed = false;
-    this.parent = null;
-    this.obstacle = false;
-
-    this.color = [25,25,25];
-
-    this.f = 0;
-    this.g = 0;
-    this.h = 0;
-    this.cost = 1;
-
-    this.setColor = function(r,g,b) {
-        this.color = [r,g,b];
-    }
-    this.display = function() {
-        fill(this.color);
-        stroke(50);
-        rect(this.xpos * width / cols, this.ypos * height / rows, (width / cols) - 1, (height / rows) - 1);
-    }
-}
-
-function Robot(x,y) {
-    this.xpos = x;
-    this.ypos = y;
-    this.path;
-    this.nextNode = null;
-
-    this.move = function() {
-        var moved = false;
-        if(!solved) {
-            resetNodes();
-            init();
-        
-        }else if(this.path != null) {
-            if(this.nextNode == null) this.nextNode = this.path.pop();
-            if(this.xpos < this.nextNode.xpos - 0.01 || this.xpos > this.nextNode.xpos + 0.01) {
-                //this.xpos = lerp(this.xpos, this.nextNode.xpos, 0.01);
-                this.xpos +=  (this.nextNode.xpos - this.xpos) / 2;
-                moved = true;
-            }
-            if(this.ypos < this.nextNode.ypos - 0.01 || this.ypos > this.nextNode.ypos + 0.01) {
-                //this.ypos = lerp(this.ypos, this.nextNode.ypos, 0.01);
-                this.ypos += (this.nextNode.ypos - this.ypos) / 2;
-                moved = true;
-            }
-            grid[Math.round(this.xpos)][Math.round(this.ypos)].setColor(150,0,0);
-            if(!moved && this.path.length > 0 ) {
-                this.nextNode = this.path.pop();
-            }
-            this.show();
-        }
-    }
-    this.show = function() {
-        fill(150,0,0);
-        noStroke();
-        rect(this.xpos * width / cols, this.ypos * height / rows, (width / cols)-1, (height / rows)-1, 20);
-
-    }
-}
-
-
-//setup grid
 cols = 100;
 rows = 100;
 grid = new Array(cols);
@@ -97,7 +29,9 @@ for(var i = 0; i < cols; ++i) {
     }
 }
 
-//setup gui
+//////////////////////////////
+//        GUI Setup         //
+//////////////////////////////
 let ControlMenu = function() {
     this.Diagonals = false;
     this.Reset = function() {  
@@ -133,16 +67,18 @@ function setup() {
     createCanvas(width,height);
     
     init();
+    background(0);
     displayGrid();
 }
 
 function init() {
+    background(0);
     openSet = new BinaryHeap(function(node) {return node.f});
     solved = false;
 
     start = grid[0][0];
     end = grid[cols-1][rows-1];
-    end.setColor(0,150,0);
+    end.setColor(200,200,0);
     current = start;
     robot = new Robot(0, 0);
     
@@ -170,20 +106,11 @@ function onMouseMove(event) {
 
 function onMouseDown() {
     mouse_down = true;
-    if(mouse_position.x < cols && mouse_position.y < rows) {
-        resetNodes();
-        openSet = new BinaryHeap(function(node) {return node.f});
-        solved = false;
-    
-        start = grid[Math.round(robot.xpos)][Math.round(robot.ypos)];
-        end = grid[cols-1][rows-1];
-        end.setColor(0,150,0);
-        current = start;
-    
-        openSet.push(start);
 
+    if(mouse_position.x < cols && mouse_position.y < rows) {
+        pathUpdate = true;
         let x = mouse_position.x;
-        let y= mouse_position.y;
+        let y = mouse_position.y;
 
         if(grid[x-1] && grid[x-1][y]) {
             grid[x-1][y].obstacle = true;
@@ -223,11 +150,24 @@ function onMouseDown() {
 
 function onMouseUp() {
     mouse_down = false;
+    if(pathUpdate) {
+        solved = false;
+        resetNodes();
+        openSet = new BinaryHeap(function(node) {return node.f});
+
+        start = grid[Math.round(robot.xpos)][Math.round(robot.ypos)];
+        end = grid[cols-1][rows-1];
+        end.setColor(200,200,0);
+        current = start;
+
+        openSet.push(start);
+        pathUpdate = false;
+    }
 }
 
 
 //////////////////////////////////////
-//         runtime functions       //
+//         Render Loop             //
 /////////////////////////////////////
 
 function draw() {
@@ -238,11 +178,14 @@ function draw() {
         updateSets();
         
     }
-    else if (!mouse_down && t0 - t1 > 10){
+    else if (t0 - t1 > 10){
         t1 = millis();
         robot.move();
     }
 }
+
+//a* implementation uses code and ideas from:
+//https://briangrinstead.com/blog/astar-search-algorithm-in-javascript/
 
 function updateSets() {
     current = openSet.pop();
