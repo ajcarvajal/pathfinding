@@ -87,8 +87,8 @@ function init() {
 
 }
 function resetNodes() {
-    for(var i = Math.round(robot.xpos); i < cols; ++i) {
-        for(var j = Math.round(robot.ypos); j < rows; ++j) {
+    for(var i = robot.xpos; i < cols; ++i) {
+        for(var j = robot.ypos; j < rows; ++j) {
             if(!grid[i][j].obstacle) grid[i][j] = new Node(i,j);
         }
     }
@@ -138,10 +138,10 @@ function onMouseDown() {
             grid[x][y+1].setColor(75,50,50);
             grid[x][y+1].display();
         }
-        let target = grid[mouse_position.x][mouse_position.y];
-        target.obstacle = true;
-        target.setColor(129,59,9);
-        target.display();
+        //center
+        grid[x][y].obstacle = true;
+        grid[x][y].setColor(129,59,9);
+        grid[x][y].display();
     }
     t0 = millis();
 
@@ -155,7 +155,7 @@ function onMouseUp() {
         resetNodes();
         openSet = new BinaryHeap(function(node) {return node.f});
 
-        start = grid[Math.round(robot.xpos)][Math.round(robot.ypos)];
+        start = grid[robot.xpos][robot.ypos];
         end = grid[cols-1][rows-1];
         end.setColor(200,200,0);
         current = start;
@@ -178,7 +178,7 @@ function draw() {
         updateSets();
         
     }
-    else if (t0 - t1 > 10){
+    else if (t0 - t1 > 70){
         t1 = millis();
         robot.move();
     }
