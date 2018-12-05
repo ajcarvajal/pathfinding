@@ -8,3 +8,35 @@
 <script src="app.js"></script>
 
 </body>
+
+<style>
+    .description {float: right; 
+      text-align: left; 
+            width: 40%;
+            margin-top: 85px;
+            padding: 20px 20px 20px 20px;
+      background-color: rgba(30, 54, 73, 0.521);
+            border-radius: 10px;
+    }
+</style>
+<div class="description">
+    <h1>Pathfinding using A* Search</h1>
+    <p><b>This simulation is an example of using A* Search for realtime navigation. </p><p>Use the mouse to draw obstacles for the simulated robot to avoid. </b></p>
+    <p>When the program starts, the shortest path to the goal (the bottom right pixel) is determined. This path is drawn in blue. Once the path is determined, the robot begins travelling 
+        the path until obstacles block it's path. It will then run A* search again considering the new obstacles. 
+    </p><p>
+        The A* Algorithm was published in 1968 by Peter Hart, Nils Nilsson, and Bertram Raphael. It is an impressive algorithm, even when reconstructed as simply as shown here. It is able to find the best path in a grid with 10,000 nodes in under a second.
+    </p>
+    <h2>A post mortem of this study</h2>
+    <p>
+        Implementing A* search requires efficient use of data structures like stacks, heaps, and large multidimentional arrays. Writing this in Javascript becomes an issue because the standard
+        library does not provide solutions for these. As such, this version of the code is not close to as efficient as it could be, but demonstrating the basics of it in the browser is good enough.
+         
+    </p>
+
+    <h3>Future work</h3>
+    <p> I'm curious to see how this could be improved by using WebGL. It's possible that computing the shortest path could be done with the GPU, which would make it much faster.
+        Using framebuffers would also fix issues that occur when the robots movement and it's pathfinding are out of sync. If these were rendered seperately with buffers, it could increase the reliabilitiy
+        of the robot to avoid obstacles that are up close.
+    </p>
+</div>

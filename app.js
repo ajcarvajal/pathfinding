@@ -46,7 +46,7 @@ let ControlMenu = function() {
 
 let ControlPanel = new ControlMenu();
 let gui = new dat.GUI();
-gui.width = window.innerWidth / 4;
+gui.width = window.innerWidth / 3;
 gui.add(ControlPanel, 'Diagonals');
 gui.add(ControlPanel, 'Reset');
 
