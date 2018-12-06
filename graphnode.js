@@ -1,6 +1,7 @@
 function Node(x,y) {
     this.xpos = x;
     this.ypos = y; 
+    this.size = 1;
 
     this.visited = false;
     this.closed = false;
@@ -22,7 +23,7 @@ function Node(x,y) {
         if(this.visible) {
             fill(this.color);
             stroke(60);       
-            rect(this.xpos * width / cols, this.ypos * height / rows, (width / cols) - 1, (height / rows) - 1,20);
+            rect(this.xpos * width / cols, this.ypos * height / rows, ((width / cols) - 1) * this.size, ((height / rows) - 1) * this.size,20);
         }
     }
 }

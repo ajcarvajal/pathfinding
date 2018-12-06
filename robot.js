@@ -4,6 +4,7 @@ function Robot(x,y) {
     this.path = [];
     this.nextNode = null;
 
+
     this.move = function() {
         var moved = false;
             if(this.nextNode == null && this.path.length > 0) this.nextNode = this.path.pop();
@@ -24,9 +25,9 @@ function Robot(x,y) {
         
     }
     this.show = function() {
-        fill(150,0,0);
-        stroke(0);
-        rect(this.xpos * width / cols, this.ypos * height / rows, (width / cols)-1, (height / rows)-1);
+        fill(75,175,100);
+        stroke(0,75,0);
+        rect(this.xpos * width / cols, this.ypos * height / rows, (width / cols)-1,(height / rows)-1 );
 
     }
 }

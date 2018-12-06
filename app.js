@@ -87,9 +87,22 @@ function init() {
 
 }
 function resetNodes() {
-    for(var i = robot.xpos; i < cols; ++i) {
-        for(var j = robot.ypos; j < rows; ++j) {
-            if(!grid[i][j].obstacle) grid[i][j] = new Node(i,j);
+    for(var i = 0; i < cols; ++i) {
+        for(var j = 0; j < rows; ++j) {
+            let node = grid[i][j];
+            if(!node.obstacle || (node.visible && !node.obstacle)) {
+                node.size = 1;
+                node.visited = false;
+                node.closed = false;
+                node.parent = null;
+            
+                node.color = [25,25,25];
+            
+                node.f = 0;
+                node.g = 0;
+                node.h = 0;
+                node.cost = 1;
+            }
         }
     }
 }
@@ -115,6 +128,7 @@ function onMouseDown() {
         if(grid[x-1] && grid[x-1][y]) {
             grid[x-1][y].obstacle = true;
             grid[x-1][y].setColor(129,59,9);
+            grid[x-1][y].size = 1;
             grid[x-1][y].display();
         }
     
@@ -122,6 +136,7 @@ function onMouseDown() {
         if(grid[x+1] && grid[x+1][y]) {
             grid[x+1][y].obstacle = true;
             grid[x+1][y].setColor(129,59,9);
+            grid[x+1][y].size = 1;
             grid[x+1][y].display();
         }
     
@@ -129,6 +144,7 @@ function onMouseDown() {
         if(grid[x] && grid[x][y-1]) {
             grid[x][y-1].obstacle = true;
             grid[x][y-1].setColor(119,49,0);
+            grid[x][y-1].size = 1;
             grid[x][y-1].display();
         }
     
@@ -136,11 +152,13 @@ function onMouseDown() {
         if(grid[x] && grid[x][y+1]) {
             grid[x][y+1].obstacle = true;
             grid[x][y+1].setColor(75,50,50);
+            grid[x][y+1].size = 1;
             grid[x][y+1].display();
         }
         //center
         grid[x][y].obstacle = true;
         grid[x][y].setColor(129,59,9);
+        grid[x][y].size = 1;
         grid[x][y].display();
     }
     t0 = millis();
@@ -194,6 +212,7 @@ function updateSets() {
         solved = true;
         drawPath(current);
         displayGrid();
+        
         return;
     } 
     current.closed = true;
@@ -232,7 +251,9 @@ function drawPath(node) {
     while (current.parent) {
       current = current.parent;
       robot.path.push(current);
-      grid[current.xpos][current.ypos].setColor(75,75,255);
+      grid[current.xpos][current.ypos].size = 0.5;
+      grid[current.xpos][current.ypos].setColor(50,175,50);
+
     }
   }
 
