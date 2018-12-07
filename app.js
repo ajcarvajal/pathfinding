@@ -1,8 +1,8 @@
 ////////////////////////////////////////////
 //       Disgusting Global Variables      //
 ////////////////////////////////////////////
-let width = Math.min(window.innerWidth,window.innerHeight) - 20;
-let height = width;
+let width = window.innerWidth / 2 + 50;
+let height = window.innerHeight - 10;
 
 let mouse_position = {
     x: 0,
@@ -64,7 +64,9 @@ function setup() {
     window.addEventListener('mousedown', onMouseDown, false);
     window.addEventListener('mouseup', onMouseUp, false);
 
-    createCanvas(width,height);
+    let canvas = createCanvas(width,height);
+    canvas.parent('app');
+    
     
     init();
     background(0);
@@ -112,8 +114,9 @@ function resetNodes() {
 ///////////////////////////
 
 function onMouseMove(event) {
-    mouse_position.x = Math.floor(event.clientX / width * cols);
+    mouse_position.x = Math.floor((event.clientX-width/4+10) / width * cols);
     mouse_position.y = Math.floor(event.clientY / height * rows);
+
     if(mouse_down) onMouseDown();
 }
 

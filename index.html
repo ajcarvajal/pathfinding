@@ -1,42 +1,180 @@
-<body>
-
-<script src="js/binaryheap.js"></script>
-<script src="js/p5.min.js"></script>
-<script src="js/dat.gui.min.js"></script>
-<script src="graphnode.js"></script>
-<script src="robot.js"></script>
-<script src="app.js"></script>
-
-</body>
-
-<style>
-    .description {float: right; 
-      text-align: left; 
-            width: 40%;
-            margin-top: 85px;
-            padding: 20px 20px 20px 20px;
-      background-color: rgba(30, 54, 73, 0.521);
-            border-radius: 10px;
+<!DOCTYPE html>
+<html>
+  <title>Aj Carvajal's project page</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="styles.css" />
+  <!-- style sheet based off of templates provided by w3schools.com -->
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css?family=Inconsolata"
+  />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+  />
+  <style>
+    body,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      font-family: "Inconsolata", monospace;
     }
-</style>
-<div class="description">
-    <h1>Pathfinding using A* Search</h1>
-    <p><b>This simulation is an example of using A* Search for realtime navigation. </p><p>Use the mouse to draw obstacles for the simulated robot to avoid. </b></p>
-    <p>When the program starts, the shortest path to the goal (the bottom right pixel) is determined. This path is drawn in blue. Once the path is determined, the robot begins travelling 
-        the path until obstacles block it's path. It will then run A* search again considering the new obstacles. 
-    </p><p>
-        The A* Algorithm was published in 1968 by Peter Hart, Nils Nilsson, and Bertram Raphael. It is an impressive algorithm, even when reconstructed as simply as shown here. It is able to find the best path in a grid with 10,000 nodes in under a second.
-    </p>
-    <h2>A post mortem of this study</h2>
-    <p>
-        Implementing A* search requires efficient use of data structures like stacks, heaps, and large multidimentional arrays. Writing this in Javascript becomes an issue because the standard
-        library does not provide solutions for these. As such, this version of the code is not close to as efficient as it could be, but demonstrating the basics of it in the browser is good enough.
-         
-    </p>
+  </style>
+  <body class="w3-dark-grey w3-content" style="max-width:3000px">
+    <!-- Sidebar/menu -->
+    <nav
+      class="w3-sidebar w3-collapse w3-black w3-animate-left"
+      style="z-index:3;width:200px;"
+      id="mySidebar"
+    >
+      <br />
+      <div class="w3-container">
+        <a
+          href="#"
+          onclick="w3_close()"
+          class="w3-hide-large w3-right w3-jumbo w3-padding w3-hover-grey"
+          title="close menu"
+        >
+          <i class="fa fa-remove"></i>
+        </a>
+        <h4><b>Aj Carvajal</b></h4>
+      </div>
+      <div class="w3-bar-block">
+        <a
+          href="https://ajcarvajal.github.io/index.html"
+          onclick="w3_close()"
+          class="w3-bar-item w3-button w3-padding w3-text-teal"
+          ><i class="fa fa-th-large fa-fw w3-margin-right"></i>Projects</a
+        >
+        <a
+          href="https://ajcarvajal.github.io/index.html#about"
+          onclick="w3_close()"
+          class="w3-bar-item w3-button w3-padding"
+          ><i class="fa fa-user fa-fw w3-margin-right"></i>About</a
+        >
+        <a
+          href="#contact"
+          onclick="w3_close()"
+          class="w3-bar-item w3-button w3-padding"
+          ><i class="fa fa-envelope fa-fw w3-margin-right"></i>Contact</a
+        >
+        <a
+          href="https://github.com/ajcarvajal"
+          class="w3-bar-item w3-button w3-padding"
+          ><i class="fa fa-th fa-fw w3-margin-right"></i>Github</a
+        >
+      </div>
+    </nav>
 
-    <h3>Future work</h3>
-    <p> I'm curious to see how this could be improved by using WebGL. It's possible that computing the shortest path could be done with the GPU, which would make it much faster.
-        Using framebuffers would also fix issues that occur when the robots movement and it's pathfinding are out of sync. If these were rendered seperately with buffers, it could increase the reliabilitiy
-        of the robot to avoid obstacles that are up close.
-    </p>
-</div>
+    <!-- Overlay effect when opening sidebar on small screens -->
+    <div
+      class="w3-overlay w3-hide-large w3-animate-opacity"
+      onclick="w3_close()"
+      style="cursor:pointer"
+      title="close side menu"
+      id="myOverlay"
+    ></div>
+
+    <!-- !PAGE CONTENT! -->
+    <div class="w3-main" style="margin-left:220px">
+      <div class="w3-row-padding">
+        <div class="w3-third w3-container w3-margin-bottom">
+          <div id="app">
+            <script src="js/binaryheap.js"></script>
+            <script src="js/p5.min.js"></script>
+            <script src="js/dat.gui.min.js"></script>
+            <script src="graphnode.js"></script>
+            <script src="robot.js"></script>
+            <script src="app.js"></script>
+          </div>
+        </div>
+
+        <div
+          class="w3-third w3-container w3-margin-bottom w3-right"
+          style="margin-top:100px"
+        >
+          <h1 class="w3-text-teal">Pathfinding using A* Search</h1>
+          <h2 class="w3-text-blue">
+            Use the mouse to draw obstacles for the simulated robot to avoid.
+          </h2>
+          <p>
+            When the program starts, the shortest path to the goal (the bottom
+            right pixel) is determined. This path is drawn in blue. Once the
+            path is determined, the robot begins travelling the path until
+            obstacles block it's path. It will then run A* search again
+            considering the new obstacles.
+          </p>
+          <p>
+            The A* Algorithm was published in 1968 by Peter Hart, Nils Nilsson,
+            and Bertram Raphael. It is an impressive algorithm, even when
+            reconstructed as simply as shown here. It is able to find the best
+            path in a grid with 10,000 nodes in under a second.
+          </p>
+          <h2 class="w3-text-teal">A post mortem of this study</h2>
+          <p>
+            Implementing A* search requires efficient use of data structures
+            like stacks, heaps, and large multidimentional arrays. Writing this
+            in Javascript becomes an issue because the standard library does not
+            provide solutions for these. As such, this version of the code is
+            not close to as efficient as it could be, but demonstrating the
+            basics of it in the browser is good enough.
+          </p>
+
+          <h3 class="w3-text-teal">Future work</h3>
+          <p>
+            I'm curious to see how this could be improved by using WebGL. It's
+            possible that computing the shortest path could be done with the
+            GPU, which would make it much faster. Using framebuffers would also
+            fix issues that occur when the robots movement and it's pathfinding
+            are out of sync. If these were rendered seperately with buffers, it
+            could increase the reliabilitiy of the robot to avoid obstacles that
+            are up close.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="w3-container w3-padding-large w3-center" style="margin-bottom:32px">
+        <hr>
+        <h4 id="about"><b>About Me</b></h4>
+        <p>I'm just a dude from Alaska who likes programming. 
+        </p><p>C++ is my favorite, but I've taken up Javascript recently so I can show off my work easily.</p>
+        <hr>
+        
+      <!-- Contact Section -->
+      <div class="w3-container w3-padding-16 w3-dark-grey w3-center">
+        <h4 id="contact"><b>Contact</b></h4>
+        <div class="w3-row-padding w3-center w3-padding-24" style="margin:0 -16px">
+          <div class="w3-third w3-dark-grey">
+            <p><i class="fa fa-envelope w3-xxlarge w3-text-light-grey"></i></p>
+            <p>alanjcarv@gmail.com</p>
+          </div>
+          <div class="w3-third w3-dark-grey w3-text-teal">
+            <p><i class="fa fa-linkedin w3-xxlarge w3-text-light-grey"></i></p>
+            <p><a href="https://linkedin.com/in/aj-carvajal-465344130/">My LinkedIn Page</a></p>
+          </div>
+          <div class="w3-third w3-dark-grey">
+            <p><i class="fa fa-phone w3-xxlarge w3-text-light-grey"></i></p>
+            <p>907-388-2394</p>
+          </div>
+        </div>
+      </div>
+    
+    <script>
+    // Script to open and close sidebar
+    function w3_open() {
+        document.getElementById("mySidebar").style.display = "block";
+        document.getElementById("myOverlay").style.display = "block";
+    }
+     
+    function w3_close() {
+        document.getElementById("mySidebar").style.display = "none";
+        document.getElementById("myOverlay").style.display = "none";
+    }
+    </script>
+    
+    </body>
+    </html>
