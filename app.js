@@ -127,7 +127,7 @@ function onMouseDown() {
 
         if(grid[x-1] && grid[x-1][y]) {
             grid[x-1][y].obstacle = true;
-            grid[x-1][y].setColor(129,59,9);
+            grid[x-1][y].setColor(153,165,168);
             grid[x-1][y].size = 1;
             grid[x-1][y].display();
         }
@@ -135,7 +135,7 @@ function onMouseDown() {
         // East
         if(grid[x+1] && grid[x+1][y]) {
             grid[x+1][y].obstacle = true;
-            grid[x+1][y].setColor(129,59,9);
+            grid[x+1][y].setColor(146,161,166);
             grid[x+1][y].size = 1;
             grid[x+1][y].display();
         }
@@ -143,7 +143,7 @@ function onMouseDown() {
         // South
         if(grid[x] && grid[x][y-1]) {
             grid[x][y-1].obstacle = true;
-            grid[x][y-1].setColor(119,49,0);
+            grid[x][y-1].setColor(105,124,130);
             grid[x][y-1].size = 1;
             grid[x][y-1].display();
         }
@@ -151,13 +151,13 @@ function onMouseDown() {
         // North
         if(grid[x] && grid[x][y+1]) {
             grid[x][y+1].obstacle = true;
-            grid[x][y+1].setColor(75,50,50);
+            grid[x][y+1].setColor(166,175,179);
             grid[x][y+1].size = 1;
             grid[x][y+1].display();
         }
         //center
         grid[x][y].obstacle = true;
-        grid[x][y].setColor(129,59,9);
+        grid[x][y].setColor(149,158,161);
         grid[x][y].size = 1;
         grid[x][y].display();
     }
